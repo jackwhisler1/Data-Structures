@@ -22,16 +22,14 @@ class BinarySearchTree {
       while (!found) {
         if (compareNode.value === value) {
           return null;
-        }
-        if (compareNode.value > value) {
+        } else if (compareNode.value > value) {
           if (!compareNode.left) {
             found = true;
             compareNode.left = new Node(value);
             return this;
           }
           compareNode = compareNode.left;
-        }
-        if (compareNode.value < value) {
+        } else if (compareNode.value < value) {
           if (!compareNode.right) {
             found = true;
             compareNode.right = new Node(value);
@@ -39,6 +37,61 @@ class BinarySearchTree {
           }
           compareNode = compareNode.right;
         }
+      }
+    }
+  }
+  find(value) {
+    if (!this.root) {
+      return false;
+    } else if (value === this.root.value) {
+      return true;
+    } else {
+      let current = this.root;
+      while (current) {
+        if (value < current.value) {
+          current = current.left;
+        } else if (value > current.value) {
+          current = current.right;
+        } else {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+
+  breadthFirstSearch() {
+    let node = this.root,
+      data = [],
+      queue = [];
+    queue.push(node);
+    while (queue.length) {
+      node = queue.shift();
+      data.push(node.value);
+      if (node.left) {
+        queue.push(node.left);
+      }
+
+      if (node.right) {
+        queue.push(node.right);
+      }
+    }
+    return data;
+  }
+
+  // preorder
+  DFSPreOrder() {
+    let data = [],
+      current = this.root;
+    traverse(current);
+    return data;
+    function traverse(node) {
+      data.push(node.value);
+      if (node.left) {
+        traverse(node.left);
+      }
+      if (node.right) {
+        traverse(node.right);
       }
     }
   }
@@ -52,3 +105,6 @@ tree.insert(2);
 tree.insert(5);
 tree.insert(2.3);
 console.log(tree);
+console.log(tree.find(55));
+console.log(tree.breadthFirstSearch());
+console.log(tree.DFSPreOrder());
