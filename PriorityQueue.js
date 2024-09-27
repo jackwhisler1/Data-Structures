@@ -1,9 +1,16 @@
-class MaxBinaryHeap {
-  constructor() {
-    this.values = [41, 39, 33, 18, 27, 12];
+class Node {
+  constructor(val, priority) {
+    this.val = val;
+    this.priority = priority;
   }
-  insert(element) {
-    this.values.push(element);
+}
+class PriorityQueue {
+  constructor() {
+    this.values = [];
+  }
+  enqueue(val, priority) {
+    let newNode = new Node(val, priority);
+    this.values.push(newNode);
     this.bubbleUp();
   }
   bubbleUp() {
@@ -12,7 +19,7 @@ class MaxBinaryHeap {
     while (idx > 0) {
       let parentIdx = Math.floor((idx - 1) / 2);
       let parent = this.values[parentIdx];
-      if (element <= parent) {
+      if (element.priority <= parent.priority) {
         break;
       } else {
         this.values[parentIdx] = element;
@@ -22,7 +29,7 @@ class MaxBinaryHeap {
     }
   }
 
-  extractMax() {
+  dequeue() {
     let max = this.values[0];
     const end = this.values.pop();
     if (this.values.length > 0) {
@@ -44,13 +51,16 @@ class MaxBinaryHeap {
       let swap = null;
       if (leftChildIdx < length) {
         leftChild = this.values[leftChildIdx];
-        if (leftChild > element) {
+        if (leftChild.priority > element.priority) {
           swap = leftChildIdx;
         }
       }
       if (rightChildIdx < length) {
         rightChild = this.values[rightChildIdx];
-        if ((swap === null && rightChild > element) || (swap && rightChild > leftChild)) {
+        if (
+          (swap === null && rightChild.priority > element.priority) ||
+          (swap && rightChild.priority > leftChild.priority)
+        ) {
           swap = rightChildIdx;
         }
       }
@@ -63,11 +73,11 @@ class MaxBinaryHeap {
     }
   }
 }
-let heap = new MaxBinaryHeap();
-console.log(heap);
-heap.insert(55);
-console.log(heap);
-heap.insert(2);
-console.log(heap);
-heap.extractMax();
-console.log(heap);
+let ER = new PriorityQueue();
+ER.enqueue("flu", 1);
+ER.enqueue("gunshot wound", 9);
+ER.enqueue("broken arm", 5);
+ER.enqueue("heart attack", 10);
+console.log(ER);
+ER.dequeue();
+console.log(ER);
